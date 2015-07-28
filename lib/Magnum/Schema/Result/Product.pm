@@ -13,7 +13,10 @@ Magnum::Schema::Result::Product
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use Moose;
+use MooseX::NonMoose;
+use MooseX::MarkAsMethods autoclean => 1;
+extends 'DBIx::Class::Core';
 
 =head1 COMPONENTS LOADED
 
@@ -87,9 +90,10 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-02-04 11:16:24
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:TQPOLvRtFjTj8tVnjD7j/w
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-07-28 21:49:56
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:/6yeY2gMcMCqPSVkDb4tpA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
+__PACKAGE__->meta->make_immutable;
 1;

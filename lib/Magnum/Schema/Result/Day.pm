@@ -13,7 +13,10 @@ Magnum::Schema::Result::Day
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use Moose;
+use MooseX::NonMoose;
+use MooseX::MarkAsMethods autoclean => 1;
+extends 'DBIx::Class::Core';
 
 =head1 COMPONENTS LOADED
 
@@ -139,12 +142,12 @@ __PACKAGE__->belongs_to(
   "week",
   "Magnum::Schema::Result::Week",
   { id => "week" },
-  { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-02-04 11:16:24
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:lv/Sn/FFrdVztuj7ZeZarQ
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-07-28 21:49:55
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ZK4fhYqluW7IDYVAxb4saw
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
@@ -227,4 +230,9 @@ sub is_in_month {
   return;
 }
 
+1;
+
+
+# You can replace this text with custom code or comments, and it will be preserved on regeneration
+__PACKAGE__->meta->make_immutable;
 1;

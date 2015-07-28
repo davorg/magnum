@@ -13,7 +13,10 @@ Magnum::Schema::Result::InvoiceLine
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use Moose;
+use MooseX::NonMoose;
+use MooseX::MarkAsMethods autoclean => 1;
+extends 'DBIx::Class::Core';
 
 =head1 COMPONENTS LOADED
 
@@ -157,7 +160,7 @@ __PACKAGE__->belongs_to(
   "invoice",
   "Magnum::Schema::Result::Invoice",
   { id => "invoice" },
-  { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 =head2 week
@@ -175,15 +178,16 @@ __PACKAGE__->belongs_to(
   {
     is_deferrable => 1,
     join_type     => "LEFT",
-    on_delete     => "CASCADE",
-    on_update     => "CASCADE",
+    on_delete     => "RESTRICT",
+    on_update     => "RESTRICT",
   },
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-02-04 11:21:57
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:fjgEiBWK/FXMsrcF1vulIg
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-07-28 21:49:55
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:ww5mPvaf+j2u6gZKmJcKvA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
+__PACKAGE__->meta->make_immutable;
 1;

@@ -13,7 +13,10 @@ Magnum::Schema::Result::Contract
 use strict;
 use warnings;
 
-use base 'DBIx::Class::Core';
+use Moose;
+use MooseX::NonMoose;
+use MooseX::MarkAsMethods autoclean => 1;
+extends 'DBIx::Class::Core';
 
 =head1 COMPONENTS LOADED
 
@@ -114,7 +117,7 @@ __PACKAGE__->table("contract");
 
   data_type: 'varchar'
   is_nullable: 1
-  size: 40
+  size: 200
 
 =head2 cust_ref_desc
 
@@ -207,7 +210,7 @@ __PACKAGE__->add_columns(
     is_nullable    => 0,
   },
   "cust_ref",
-  { data_type => "varchar", is_nullable => 1, size => 40 },
+  { data_type => "varchar", is_nullable => 1, size => 200 },
   "cust_ref_desc",
   { data_type => "varchar", is_nullable => 1, size => 40 },
   "cust_contact",
@@ -244,7 +247,7 @@ __PACKAGE__->belongs_to(
   "customer",
   "Magnum::Schema::Result::Customer",
   { id => "customer" },
-  { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 =head2 employee
@@ -259,7 +262,7 @@ __PACKAGE__->belongs_to(
   "employee",
   "Magnum::Schema::Result::Employee",
   { id => "employee" },
-  { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 =head2 invoices
@@ -289,7 +292,7 @@ __PACKAGE__->belongs_to(
   "product",
   "Magnum::Schema::Result::Product",
   { id => "product" },
-  { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 =head2 site
@@ -304,7 +307,7 @@ __PACKAGE__->belongs_to(
   "site",
   "Magnum::Schema::Result::Site",
   { id => "site" },
-  { is_deferrable => 1, on_delete => "CASCADE", on_update => "CASCADE" },
+  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
 );
 
 =head2 weeks
@@ -323,9 +326,10 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07025 @ 2013-02-04 11:16:24
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:i1qJ4vsavYz2Fh8eXm/IcQ
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-07-28 21:49:54
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:NdcPbPLZmeJRoJFsaqGWHA
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
+__PACKAGE__->meta->make_immutable;
 1;
