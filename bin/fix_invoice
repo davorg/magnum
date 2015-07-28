@@ -1,0 +1,27 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use 5.010;
+use DateTime;
+use utf8;
+use open IO => ':utf8';
+use lib '/home/dave/Dropbox/magnum/lib';
+use Magnum::Schema;
+
+my $sch = Magnum::Schema->get_schema;
+
+my $inv_rs = $sch->resultset('Invoice')->search({
+  'me.contract' => undef,
+  'invoice_lines.line_no' => 1,
+  'week.contract' => { '!=' => undef },
+}, {
+  join => { invoice_lines => 'week' },
+  '+select' => [ 'week.contract' ],
+  '+as' => ['week_contract'],
+});
+
+while (my $inv = $inv_rs->next) {
+  say $inv->id . ' / ' . $inv->get_column('week_contract');
+  $inv->update({ contract => $inv->get_column('week_contract') });
+}

@@ -1,0 +1,29 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use lib '/home/dave/Dropbox/magnum/lib';
+
+use Template;
+use POSIX 'strftime';
+use Magnum::Schema;
+
+my $inv_no = shift || die "No invoice number given\n";
+
+my $sch = Magnum::Schema->get_schema;
+my $inv_rs = $sch->resultset('Invoice');
+
+my $inv = $inv_rs->find($inv_no)
+  || die "Invoice $inv_no not found\n";
+
+my $t = Template->new({ ENCODING => 'UTF-8' });
+
+my $vars = { inv => $inv };
+
+my $name = $inv->filename;
+
+$t->process('invoice.tt', $vars, "$name.html", { binmode => ':utf8' })
+  or die $t->error;
+
+system('wkhtmltopdf', "$name.html", "$name.pdf");

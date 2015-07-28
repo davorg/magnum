@@ -1,0 +1,66 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use DateTime;
+use DateTime::Duration;
+use lib '/home/dave/Dropbox/magnum/lib';
+use Magnum::Schema;
+
+# Need at least three arguments - contracid, month and year
+@ARGV >= 3 or die "usage: add_mon.pl contract mon yr\n";
+my ($contract_id, $month, $year) = @ARGV;
+
+my $sch = Magnum::Schema->get_schema;
+
+my $con_rs = $sch->resultset('Contract');
+my $contract = $con_rs->find($contract_id);
+
+die "Can't find contract $contract_id\n" unless $contract;
+
+# We can optionally pass extra arguments to the program. These are
+# dates in the month that would usually be working days (i.e. Mon-Fri)
+# but for some reason (public hoilday, sickness, anything else) weren't
+# worked.
+# We turn those dates into a hash, %skip, where the key is the date to
+# skip and the value is one.
+my @skip;
+@skip = @ARGV[3 .. $#ARGV] if @ARGV > 3;
+my %skip;
+@skip{@skip} = (1) x @skip;
+
+my $first = DateTime->new(day => 1, month => $month, year => $year);
+
+my $start = $first;
+my $oneday = DateTime::Duration->new(days => 1);
+
+# This moves $start back to the previous Sunday (or doesn't move it at
+# all if it is already a Sunday).
+$start -= $oneday * ($start->day_of_week);
+
+do {
+  my $day = $start;
+
+  my $week = $contract->add_to_weeks({ start => $start });
+
+  for (0 .. 6) {
+    my %day;
+    # Saturday and Sunday are (hopefully) non-working days.
+    # This is also where we skip those non-working days we noted earlier.
+    if ($day->day_of_week >= 6 or exists $skip{$day->day}) {
+      @day{qw(start end lunch_start lunch_end)} = ('0:00') x 4;
+    } else {
+      # TODO: These values can change on a contract-by-contract basis.
+      @day{qw(start end lunch_start lunch_end)} =
+        ('8:30', '17:30', '12:30', '13:30');
+    }
+    $day{day_date} = $day;
+    $week->add_to_days(\%day) if $day->month == $mon;
+
+    $day += $oneday
+  }
+
+  $start += 7 * $oneday;
+} while ($start->month == $mon);
+
+print "end\n";

@@ -1,0 +1,14 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use lib '/home/dave/Dropbox/magnum/lib';
+
+use Magnum::Schema;
+
+my $sch = Magnum::Schema->get_schema;
+
+foreach ($sch->resultset('Customer')->all) {
+  print $_->name || $_->invoice_name, "\n";
+}

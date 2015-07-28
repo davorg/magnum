@@ -1,0 +1,65 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use DateTime;
+use utf8;
+use open IO => ':utf8';
+use lib '/home/dave/Dropbox/magnum/lib';
+use Magnum::Schema;
+
+
+print 'Which Contract: ';
+chomp(my $cont = <STDIN>);
+
+my $sch = Magnum::Schema->get_schema;
+
+my $con_rs = $sch->resultset('Contract');
+my $contract = $con_rs->find($cont);
+
+die "Can't find contract $cont\n" unless $contract;
+
+my $now = DateTime->now;
+my $inv = $contract->add_to_invoices({
+  date => $now,
+  customer => $contract->customer,
+  contract => $contract->id,
+});
+
+my $desc_prefix = $contract->product->name . ' '.
+                  '(' . $contract->employee->first_name . ' ' .
+                  $contract->employee->last_name . ') ' .
+                  $contract->site->name;
+
+print 'Which weeks: ';
+chomp(my $weeks = <STDIN>);
+my @weeks = split /[\s,]/, $weeks;
+
+my $i = 1;
+my $week_rs = $sch->resultset('Week');
+
+foreach (@weeks) {
+  my $wk = $week_rs->find($_);
+
+  unless ($wk->contract->customer->id == $contract->customer->id) {
+    warn 'Week ' . $wk->id . ' has no work for ' .
+      $contract->customer->name . "\n";
+    next;
+  }
+
+  my ($units, $amt);
+  foreach my $day ($wk->days) {
+    $units += $day->hours/$contract->hour_per_unit;
+    $amt   += $day->hours * $contract->rate / $contract->hour_per_unit
+  }
+  my $desc = $desc_prefix . ' ' . $units . ' ' .
+             $contract->rate_unit . '(s) @ £' . $contract->rate;
+  print "$desc / $amt\n";
+
+  $inv->add_to_invoice_lines({
+    line_no     => $i++,
+    week        => $wk->id,
+    description => $desc,
+    amount      => $amt,
+  });
+}

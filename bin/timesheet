@@ -1,0 +1,44 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+use 5.010;
+
+use lib '/home/dave/Dropbox/magnum/lib';
+
+use Template;
+use POSIX 'strftime';
+use DateTime;
+use Magnum::Schema;
+
+@ARGV == 3 or die "Usage: timesheet [contract] [year] [month]\n";
+
+my ($contract_id, $year, $month) = @ARGV;
+
+my $sch = Magnum::Schema->get_schema;
+
+my $contract = $sch->resultset('Contract')->find($contract_id)
+  or die "Contract $contract_id not found\n";
+
+my $first_of_month = DateTime->new(year => $year, month => $month, day => 1);
+my $earliest_sun = $first_of_month->clone->subtract(days => 6);
+
+my $dtf = $sch->storage->datetime_parser;
+
+my @weeks = $contract->weeks->search({
+  start => { '>=' => $dtf->format_datetime($earliest_sun) },
+});
+
+@weeks = grep { $_->is_in_month($year, $month) } @weeks;
+
+my $fname = 'timesheet-' . $first_of_month->strftime('%Y-%m');
+
+my $t = Template->new({ ENCODING => 'UTF-8' });
+$t->process(
+  'timesheet.tt',
+  { weeks => \@weeks },
+   "$fname.html",
+  { binmode => ':utf8' }
+) or die $t->error;
+
+system('wkhtmltopdf', "$fname.html", "$fname.pdf");
