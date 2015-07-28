@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf8" />
+<title>Timesheet - Magnum Solutions [% weeks.0.days.0.day_date.strftime('%B %Y') %]</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+<h1>Consultant Timesheet</h1>
+<table class="head">
+<tr><th>Consultant Name</th><td>[% weeks.0.contract.employee.name %]</td></tr>
+<tr><th>Month</th><td>[% weeks.0.days.last.day_date.strftime('%B %Y') %]</td></tr>
+<tr><th>Client Reference</th><td>[% inv.cust_ref || inv.contract.cust_ref %]</td></tr>
+<tr><th>Rate (hourly or daily)</th><td>£[% weeks.0.contract.rate %]/[% weeks.0.contract.rate_unit %]</td></tr>
+</table>
+[% day_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+           'Friday', 'Saturday' ] -%]
+[% grand_total = 0 -%]
+<table class="weeks">
+<tr><th>w/c</th>
+[%- FOREACH day_name IN day_names; '<th>'; day_name.substr(0, 3); '</th>'; END -%]
+<th>Total</th></tr>
+[% FOREACH week IN weeks -%]
+<tr><th>[% week.start.strftime('%d %b'); total = 0 %]</th>
+[%- FOREACH day_name IN day_names -%]
+[% day = week.get_day(day_name);
+      IF day;
+        '<td'; IF day.is_weekend; ' class="weekend"'; END; '>'; day.units; total = total + day.units;
+      ELSE;
+        '<td class="not_month">&nbsp;';
+      END -%]
+</td>
+[%- END; '<td>'; total; '</td>'; grand_total = grand_total + total %]</tr>
+[% END -%]
+<tr><th colspan="8" class="grand">Grand Total</th><td>[% grand_total %]</td></th>
+</table>
+
+<table class="sigs">
+<tr class="sigs"><td><img src="davesig.png" alt="D M Cross"></td><td>&nbsp;</td></tr>
+<tr><td>.................................</td><td>.................................</td></tr>
+<tr><td>Signed - Consultant</td><td>Signed - Client</td></tr>
+</table>
+</html>
+</body>

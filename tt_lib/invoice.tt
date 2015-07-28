@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf8" />
+<title>Invoice [% inv.id | format('%05d') %]</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+<div id="logo"><img src="magnum_header.png"></div>
+<div id="from">86&nbsp;Fernlea&nbsp;Road<br />
+London<br />
+SW12&nbsp;9RW<br />
+accounts@mag-sol.com</div>
+<div id="date">[% inv.date.strftime('%d %B %Y') %]</div>
+<div id="to">[% FOREACH line = inv.customer.name_addr %]
+[% line %]<br />
+[% END -%]</div>
+
+<div id="refs">Invoice&nbsp;No:&nbsp;[% inv.id | format('%05d') -%]
+[% IF inv.contract %] (covers [% inv.date.strftime('%B %Y') %])[% END -%]
+[% IF inv.cust_ref || inv.contract.cust_ref %] <br/> [% inv.contract.cust_ref_desc || 'PO Number' %]: [% inv.cust_ref || inv.contract.cust_ref; END; IF inv.contract && inv.contract.cust_contact %] <br /> [% inv.contract.cust_contact_desc || 'Customer Contact' %]: [% inv.contract.cust_contact; END %]</div>
+
+<table id="lines">
+[% IF inv.has_vat_lines; 
+   FOREACH line = inv.vat_lines -%]
+<tr>
+<td>[% IF line.week.id %][% THEN %]w/c [% line.week.start.strftime('%d %B %Y') %]<br />[% END %]
+  [% line.description %]</td>
+<td class="amt">&pound;[% line.amount | format('%.2f')%]</td>
+</tr>
+[% END %]
+<tr>
+<td class="total">Sub Total</td>
+<td class="amt line">&pound;[% inv.vat_total | format('%.2f') %]</td>
+</tr>
+<tr>
+<td class="total">VAT @ [% inv.vat_rate %]%</td>
+<td class="amt">&pound;[% inv.vat |format('%.2f') %]</td>
+</tr>
+[% END %]
+[% IF inv.vat_lines.count -%]
+<tr><td colspan="2"><i>Zero VAT Items</i></td></tr>
+[% FOREACH line = inv.vat_lines -%]
+<tr>
+<td>[% IF line.week.id %][% THEN %]w/c [% line.week %]<br />[% END %]
+  [% line.description %]</td>
+<td class="amt">&pound;[% line.amount %]</td>
+</tr>
+[% END %]
+<tr>
+<td class="total">Zero VAT Total</td>
+<td class="amt line">&pound;[% inv.zerovat_total |format('%.2f') %]</td>
+</tr>
+[% END %]
+[% IF inv.vatexempt_lines -%]
+<tr>
+<td colspan="2"><i>VAT Exempt Items</i></td>
+</tr>
+[% FOREACH line = inv.vatexempt_lines -%]
+<tr>
+<td>[% IF line.week.id %][% THEN %]w/c [% line.week %]<br />[% END %]
+  [% line.description %] &pound;[% line.amount %]</td>
+</tr>
+[% END %]
+<tr>
+<td class="total">VAT Exempt Total</td>
+<td class="amt line">&pound;[% inv.vatexempt_total |format('%.2f') %]</td>
+</tr>
+[% END %]
+<tr>
+<td class="total">Grand Total</td>
+<td class="amt grand">&pound;[% inv.grand_total|format('%.2f') %]</td>
+</tr>
+</table>
+
+<div id="footer"><p>Terms:&nbsp;30&nbsp;days<br />
+<b>Due date: [% inv.date.add( days => 30 ).strftime('%d %B %Y') %]</b></p>
+<p>[%#Please&nbsp;make&nbsp;cheques&nbsp;payable&nbsp;to&nbsp;Magnum&nbsp;Solutions&nbsp;Ltd<br />%]
+For&nbsp;electronic&nbsp;payments&nbsp;use<br />
+Sort&nbsp;Code:&nbsp;40-01-07&nbsp;/&nbsp;Acct:&nbsp;81687166<br />
+IBAN:&nbsp;GB90&nbsp;MIDL&nbsp;400107&nbsp;81687166&nbsp;/&nbsp;SWIFT:&nbsp;MIDLGB2105G<br />
+Quote&nbsp;invoice&nbsp;number&nbsp;[% inv.id | format('%05d') %]</p>
+<p>Registered&nbsp;in&nbsp;England&nbsp;and&nbsp;Wales:&nbsp;3035701</p>
+<p>VAT&nbsp;Registration&nbsp;Number:&nbsp;657&nbsp;0528&nbsp;27</p></div>
+</body>
+</html>
