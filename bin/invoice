@@ -30,4 +30,4 @@ my $name = $inv->filename;
 $t->process('invoice.tt', $vars, "$name.html", { binmode => ':utf8' })
   or die $t->error;
 
-system('wkhtmltopdf', "$name.html", "$name.pdf");
+system('wkhtmltopdf', "$name.html", "$Bin/../invoice/$name.pdf");

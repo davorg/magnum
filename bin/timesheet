@@ -46,4 +46,4 @@ $t->process(
   { binmode => ':utf8' }
 ) or die $t->error;
 
-system('wkhtmltopdf', "$fname.html", "$fname.pdf");
+system('wkhtmltopdf', "$fname.html", "$Bin/../timesheet/$fname.pdf");
