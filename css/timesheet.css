@@ -1,0 +1,78 @@
+body {
+    font-family: arial, helvetica, sans-serif;
+    background-image: url(magnum.png);
+    background-repeat: no-repeat;
+    background-size: 33%;
+    background-position: 95% 3%;
+}
+
+h1 {
+    font-size: 12pt;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: underline;
+    text-align: left;
+    width: 100%;
+    margin-top: 60pt;
+}
+
+table.head, table.weeks {
+    margin: 48pt auto 24pt auto;
+    border: solid 1px black;
+    border-collapse: collapse;
+}
+
+table.head th, table.head td, table.weeks th, table.weeks td {
+    border: solid 1px black;
+    padding: 3px;
+    height: 24pt;
+    vertical-align: top;
+}
+
+table.head td {
+    width: 72pt;
+}
+
+table.head th {
+    text-align: left;
+    background-color: #eee;
+    width: 144pt;
+}
+
+table.weeks td {
+    text-align: center;
+}
+
+table.weeks {
+    width: 100%;
+}
+
+table.weeks th, table.weeks td {
+    width: 11%;
+}
+
+table.weeks td.not_month {
+    background-color: #666;
+}
+
+table.weeks td.weekend {
+    background-color: #ccc;
+}
+
+th.grand {
+    text-align: right;
+}
+
+table.sigs {
+    width: 100%;
+    padding-top: 40px;
+}
+
+table.sigs td {
+    padding: 0 40px;
+}
+
+table.sigs img {
+    width: 144pt;
+    height: auto;
+}

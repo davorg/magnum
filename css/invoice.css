@@ -1,0 +1,83 @@
+body {
+  font-family: arial, helvetica, san-serif;
+  width: 210mm;
+  height: 297mm;
+  position: absolute;
+}
+
+#logo {
+  position: absolute;
+  top: 0px;
+  right: 50px;
+}
+
+#from {
+  position: absolute;
+  top: 150px;
+  right: 50px;
+  text-align: right;
+}
+
+#to {
+  position: absolute;
+  top: 150px;
+  left: 50px;
+  text-align: left;
+}
+
+#date {
+  position: absolute;
+  top: 250px;
+  right: 50px;
+  text-align: left;
+}
+
+#refs {
+  position: absolute;
+  top: 300px;
+  left: 50px;
+  font-weight: bold;
+}
+
+table#lines {
+  position: absolute;
+  width: 80%;
+  margin-top: 450px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.linedate {
+  font-weight: bold;
+  font-style: italic;
+}
+
+td.total {
+  text-align: right;
+}
+
+td.amt {
+  text-align: right;
+}
+
+td.line {
+  border-top: solid 1px black;
+}
+
+td.grand {
+  border-top: double 3px black;
+}
+
+#footer {
+  position: absolute;
+  text-align: center;
+  width: 60%;
+  margin-left: 20%;
+  margin-right: 20%;
+  bottom: 0;
+}
+
+td {
+  vertical-align: bottom;
+  padding: 5px;
+}
