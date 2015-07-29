@@ -55,12 +55,12 @@ do {
         ('8:30', '17:30', '12:30', '13:30');
     }
     $day{day_date} = $day;
-    $week->add_to_days(\%day) if $day->month == $mon;
+    $week->add_to_days(\%day) if $day->month == $month;
 
     $day += $oneday
   }
 
   $start += 7 * $oneday;
-} while ($start->month == $mon);
+} while ($start->month == $month);
 
 print "end\n";
