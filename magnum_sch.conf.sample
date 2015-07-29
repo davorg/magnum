@@ -1,0 +1,14 @@
+schema_class	<Some::Schema>
+
+<connect_info>
+	dsn	dbi:mysql:database=<somedb>;host=<somehost>
+	user	<someuser>
+	pass	<somepass>
+</connect_info>
+
+<loader_options>
+	components	InflateColumn::DateTime
+	naming	current
+	dump_directory	lib
+	use_moose	1
+</loader_options>
