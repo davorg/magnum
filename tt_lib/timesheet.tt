@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf8" />
 <title>Timesheet - Magnum Solutions [% weeks.0.days.0.day_date.strftime('%B %Y') %]</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="css/timesheet.css" />
 </head>
 
 <body>
@@ -37,7 +37,7 @@
 </table>
 
 <table class="sigs">
-<tr class="sigs"><td><img src="davesig.png" alt="D M Cross"></td><td>&nbsp;</td></tr>
+<tr class="sigs"><td><img src="img/davesig.png" alt="D M Cross"></td><td>&nbsp;</td></tr>
 <tr><td>.................................</td><td>.................................</td></tr>
 <tr><td>Signed - Consultant</td><td>Signed - Client</td></tr>
 </table>

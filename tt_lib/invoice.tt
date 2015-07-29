@@ -4,10 +4,10 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf8" />
 <title>Invoice [% inv.id | format('%05d') %]</title>
-<link rel="stylesheet" type="text/css" href="style.css" />
+<link rel="stylesheet" type="text/css" href="css/invoice.css" />
 </head>
 <body>
-<div id="logo"><img src="magnum_header.png"></div>
+<div id="logo"><img src="img/magnum_header.png"></div>
 <div id="from">86&nbsp;Fernlea&nbsp;Road<br />
 London<br />
 SW12&nbsp;9RW<br />
