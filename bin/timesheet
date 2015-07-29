@@ -41,9 +41,11 @@ my $t = Template->new({
 
 $t->process(
   'timesheet.tt',
-  { weeks => \@weeks },
+  { weeks    => \@weeks,
+    month    => $first_of_month,
+    contract => $contract, },
    "$fname.html",
-  { binmode => ':utf8' }
+  { binmode  => ':utf8' }
 ) or die $t->error;
 
 system('wkhtmltopdf', "$fname.html", "$Bin/../timesheet/$fname.pdf");

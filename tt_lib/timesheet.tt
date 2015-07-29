@@ -2,17 +2,17 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf8" />
-<title>Timesheet - Magnum Solutions [% weeks.0.days.0.day_date.strftime('%B %Y') %]</title>
+<title>Timesheet - Magnum Solutions [% month.strftime('%B %Y') %]</title>
 <link rel="stylesheet" type="text/css" href="css/timesheet.css" />
 </head>
 
 <body>
 <h1>Consultant Timesheet</h1>
 <table class="head">
-<tr><th>Consultant Name</th><td>[% weeks.0.contract.employee.name %]</td></tr>
-<tr><th>Month</th><td>[% weeks.0.days.last.day_date.strftime('%B %Y') %]</td></tr>
-<tr><th>Client Reference</th><td>[% inv.cust_ref || inv.contract.cust_ref %]</td></tr>
-<tr><th>Rate (hourly or daily)</th><td>£[% weeks.0.contract.rate %]/[% weeks.0.contract.rate_unit %]</td></tr>
+<tr><th>Consultant Name</th><td>[% contract.employee.name %]</td></tr>
+<tr><th>Month</th><td>[% month.strftime('%B %Y') %]</td></tr>
+<tr><th>Client Reference</th><td>[% inv.cust_ref || contract.cust_ref || 'N/A' %]</td></tr>
+<tr><th>Rate (hourly or daily)</th><td>£[% contract.rate %]/[% contract.rate_unit %]</td></tr>
 </table>
 [% day_names = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
            'Friday', 'Saturday' ] -%]
