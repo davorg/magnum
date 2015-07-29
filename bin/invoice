@@ -7,6 +7,7 @@ use lib '/home/dave/Dropbox/magnum/lib';
 
 use Template;
 use POSIX 'strftime';
+use FindBin '$Bin';
 use Magnum::Schema;
 
 my $inv_no = shift || die "No invoice number given\n";
@@ -17,7 +18,10 @@ my $inv_rs = $sch->resultset('Invoice');
 my $inv = $inv_rs->find($inv_no)
   || die "Invoice $inv_no not found\n";
 
-my $t = Template->new({ ENCODING => 'UTF-8' });
+my $t = Template->new({
+  ENCODING     => 'UTF-8',
+  INCLUDE_PATH => "$Bin/../tt_lib",
+});
 
 my $vars = { inv => $inv };
 

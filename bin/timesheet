@@ -9,6 +9,7 @@ use lib '/home/dave/Dropbox/magnum/lib';
 use Template;
 use POSIX 'strftime';
 use DateTime;
+use FindBin '$Bin';
 use Magnum::Schema;
 
 @ARGV == 3 or die "Usage: timesheet [contract] [year] [month]\n";
@@ -33,7 +34,11 @@ my @weeks = $contract->weeks->search({
 
 my $fname = 'timesheet-' . $first_of_month->strftime('%Y-%m');
 
-my $t = Template->new({ ENCODING => 'UTF-8' });
+my $t = Template->new({
+  ENCODING     => 'UTF-8',
+  INCLUDE_PATH => "$Bin/../tt_lib",
+});
+
 $t->process(
   'timesheet.tt',
   { weeks => \@weeks },
