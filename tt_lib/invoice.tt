@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html;charset=utf8" />
-<title>Invoice [% inv.id | format('%05d') %]</title>
+<title>Invoice [% inv.pretty_id %]</title>
 <link rel="stylesheet" type="text/css" href="css/invoice.css" />
 </head>
 <body>
@@ -16,7 +16,7 @@ accounts@mag-sol.com</div>
 [% line %]<br />
 [% END -%]</div>
 
-<div id="refs">Invoice&nbsp;No:&nbsp;[% inv.id | format('%05d') -%]
+<div id="refs">Invoice&nbsp;No:&nbsp;[% inv.pretty_id -%]
 [% IF inv.contract %] (covers [% inv.date.strftime('%B %Y') %])[% END -%]
 [% IF inv.cust_ref || inv.contract.cust_ref %] <br/> [% inv.contract.cust_ref_desc || 'PO Number' %]: [% inv.cust_ref || inv.contract.cust_ref; END; IF inv.contract && inv.contract.cust_contact %] <br /> [% inv.contract.cust_contact_desc || 'Customer Contact' %]: [% inv.contract.cust_contact; END %]</div>
 

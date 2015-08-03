@@ -261,10 +261,15 @@ sub grand_total {
 sub filename {
   my $self = shift;
 
-  return sprintf('inv%05d', $self->id);
+  return 'inv' . $self->pretty_id;
 }
 
-1;
+sub pretty_id {
+  my $self = shift;
+
+  return sprintf('%05d', $self->id);
+}
+
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
