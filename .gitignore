@@ -2,3 +2,4 @@ contract
 invoice
 timesheet
 magnum_sch.conf
+*.html
