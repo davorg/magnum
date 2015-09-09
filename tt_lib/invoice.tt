@@ -38,9 +38,9 @@ accounts@mag-sol.com</div>
 <td class="amt">&pound;[% inv.vat |format('%.2f') %]</td>
 </tr>
 [% END %]
-[% IF inv.vat_lines.count -%]
+[% IF inv.has_zerovat_lines -%]
 <tr><td colspan="2"><i>Zero VAT Items</i></td></tr>
-[% FOREACH line = inv.vat_lines -%]
+[% FOREACH line = inv.zerovat_lines -%]
 <tr>
 <td>[% IF line.week.id %][% THEN %]w/c [% line.week %]<br />[% END %]
   [% line.description %]</td>
@@ -52,7 +52,7 @@ accounts@mag-sol.com</div>
 <td class="amt line">&pound;[% inv.zerovat_total |format('%.2f') %]</td>
 </tr>
 [% END %]
-[% IF inv.vatexempt_lines -%]
+[% IF inv.has_vatexempt_lines -%]
 <tr>
 <td colspan="2"><i>VAT Exempt Items</i></td>
 </tr>
