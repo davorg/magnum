@@ -278,7 +278,33 @@ sub pretty_id {
   return sprintf('%05d', $self->id);
 }
 
+sub has_cust_ref_desc {
+  my $self = shift;
 
+  return !! $self->get_cust_ref_desc;
+}
+
+sub get_cust_ref_desc {
+  my $self = shift;
+
+  return $self->cust_ref_desc if $self->cust_ref_desc;
+  return unless $self->contract;
+  return $self->contract->cust_ref_desc;
+}
+
+sub has_cust_ref {
+  my $self = shift;
+  
+  return !! $self->get_cust_ref;
+}
+
+sub get_cust_ref {
+  my $self = shift;
+
+  return $self->cust_ref if $self->cust_ref;
+  return unless $self->contract;
+  return $self->contract->cust_ref;
+}
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
 __PACKAGE__->meta->make_immutable;

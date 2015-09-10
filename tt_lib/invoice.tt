@@ -18,7 +18,7 @@ accounts@mag-sol.com</div>
 
 <div id="refs">Invoice&nbsp;No:&nbsp;[% inv.pretty_id -%]
 [% IF inv.contract %] (covers [% inv.date.strftime('%B %Y') %])[% END -%]
-[% IF inv.cust_ref || inv.contract.cust_ref %] <br/> [% inv.contract.cust_ref_desc || 'PO Number' %]: [% inv.cust_ref || inv.contract.cust_ref; END; IF inv.contract && inv.contract.cust_contact %] <br /> [% inv.contract.cust_contact_desc || 'Customer Contact' %]: [% inv.contract.cust_contact; END %]</div>
+[% IF inv.has_cust_ref %] <br/> [% inv.get_cust_ref_desc || 'PO Number' %]: [% inv.get_cust_ref; END; IF inv.contract && inv.contract.cust_contact %] <br /> [% inv.contract.cust_contact_desc || 'Customer Contact' %]: [% inv.contract.cust_contact; END %]</div>
 
 <table id="lines">
 [% IF inv.has_vat_lines; 
