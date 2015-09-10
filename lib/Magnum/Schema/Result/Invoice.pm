@@ -70,6 +70,12 @@ __PACKAGE__->table("invoice");
   is_nullable: 1
   size: 20
 
+=head2 cust_ref_desc
+
+  data_type: 'varchar'
+  is_nullable: 1
+  size: 40
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -93,6 +99,8 @@ __PACKAGE__->add_columns(
   { data_type => "integer", is_foreign_key => 1, is_nullable => 1 },
   "cust_ref",
   { data_type => "varchar", is_nullable => 1, size => 20 },
+  "cust_ref_desc",
+  { data_type => "varchar", is_nullable => 1, size => 40 },
 );
 
 =head1 PRIMARY KEY
@@ -160,8 +168,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-07-28 21:49:55
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:67pAV5Dbt5MjEJqWeB4b3A
+# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-09-10 11:53:34
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:C6krTA+QYI/BkyZGFzKpSg
 
 
 # You can replace this text with custom code or comments, and it will be preserved on regeneration
