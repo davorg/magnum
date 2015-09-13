@@ -1,3 +1,10 @@
+[% MACRO one_line(the_line) BLOCK -%]
+<tr>
+<td>[% IF the_line.week.id %][% THEN %]w/c [% the_line.week.start.strftime('%d %B %Y') %]<br />[% END %]
+  [% the_line.description %]</td>
+<td class="amt">&pound;[% the_line.amount | format('%.2f')%]</td>
+</tr>
+[% END -%]
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,13 +29,9 @@ accounts@mag-sol.com</div>
 
 <table id="lines">
 [% IF inv.has_vat_lines; 
-   FOREACH line = inv.vat_lines -%]
-<tr>
-<td>[% IF line.week.id %][% THEN %]w/c [% line.week.start.strftime('%d %B %Y') %]<br />[% END %]
-  [% line.description %]</td>
-<td class="amt">&pound;[% line.amount | format('%.2f')%]</td>
-</tr>
-[% END %]
+   FOREACH line = inv.vat_lines;
+   one_line(line);
+   END %]
 <tr>
 <td class="total">Sub Total</td>
 <td class="amt line">&pound;[% inv.vat_total | format('%.2f') %]</td>
@@ -40,13 +43,9 @@ accounts@mag-sol.com</div>
 [% END %]
 [% IF inv.has_zerovat_lines -%]
 <tr><td colspan="2"><i>Zero VAT Items</i></td></tr>
-[% FOREACH line = inv.zerovat_lines -%]
-<tr>
-<td>[% IF line.week.id %][% THEN %]w/c [% line.week %]<br />[% END %]
-  [% line.description %]</td>
-<td class="amt">&pound;[% line.amount %]</td>
-</tr>
-[% END %]
+[% FOREACH line = inv.zerovat_lines;
+   one_line(line);
+   END %]
 <tr>
 <td class="total">Zero VAT Total</td>
 <td class="amt line">&pound;[% inv.zerovat_total |format('%.2f') %]</td>
@@ -56,13 +55,9 @@ accounts@mag-sol.com</div>
 <tr>
 <td colspan="2"><i>VAT Exempt Items</i></td>
 </tr>
-[% FOREACH line = inv.vatexempt_lines -%]
-<tr>
-<td>[% IF line.week.id %][% THEN %]w/c [% line.week %]<br />[% END %]
-  [% line.description %] &pound;[% line.amount %]</td>
-</tr>
-[% END %]
-<tr>
+[% FOREACH line = inv.vatexempt_lines;
+   one_line(line);
+   END %]
 <td class="total">VAT Exempt Total</td>
 <td class="amt line">&pound;[% inv.vatexempt_total |format('%.2f') %]</td>
 </tr>
