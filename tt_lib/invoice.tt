@@ -73,7 +73,7 @@ accounts@mag-sol.com</div>
 <p>[%#Please&nbsp;make&nbsp;cheques&nbsp;payable&nbsp;to&nbsp;Magnum&nbsp;Solutions&nbsp;Ltd<br />%]
 For&nbsp;electronic&nbsp;payments&nbsp;use<br />
 Sort&nbsp;Code:&nbsp;40-01-07&nbsp;/&nbsp;Acct:&nbsp;81687166<br />
-IBAN:&nbsp;GB90&nbsp;MIDL&nbsp;400107&nbsp;81687166&nbsp;/&nbsp;SWIFT:&nbsp;MIDLGB2105G<br />
+IBAN:&nbsp;GB15&nbsp;MIDL&nbsp;400107&nbsp;81687166&nbsp;/&nbsp;SWIFT:&nbsp;MIDLGB2105G<br />
 Quote&nbsp;invoice&nbsp;number&nbsp;[% inv.id | format('%05d') %]</p>
 <p>Registered&nbsp;in&nbsp;England&nbsp;and&nbsp;Wales:&nbsp;3035701</p>
 <p>VAT&nbsp;Registration&nbsp;Number:&nbsp;657&nbsp;0528&nbsp;27</p></div>
