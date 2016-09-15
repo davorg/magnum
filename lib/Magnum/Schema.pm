@@ -27,13 +27,11 @@ sub get_schema {
     die "You need to set the following environment variables: @errs\n";
   }
 
-  my $sch = Magnum::Schema->connect(
+  return __PACKAGE__->connect(
     "dbi:mysql:database=$ENV{MAG_DB};host=$ENV{MAG_DB_HOST}",
     $ENV{MAG_DB_USER}, $ENV{MAG_DB_PASS},
     { mysql_enable_utf8 => 1 }
   );
-
-  return $sch;
 }
 
 1;
