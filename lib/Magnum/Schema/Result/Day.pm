@@ -155,24 +155,32 @@ __PACKAGE__->belongs_to(
 use DateTime::Format::Strptime;
 use DateTime::Duration;
 
-my $date_p = DateTime::Format::Strptime->new(pattern => '%Y-%m-%d %H:%M:%S');
+has date_parser => (
+  is => 'ro',
+  isa => DateTime::Format::Strptime,
+  lazy_build => 1,
+);
+
+sub _build_date_parser {
+  return DateTime::Format::Strptime->new(pattern => '%Y-%m-%d %H:%M:%S');
+}
 
 sub day_duration {
   my $self = shift;
 
   my $today = $self->day_date->ymd;
 
-  my $start   = $date_p->parse_datetime("$today " . $self->start);
+  my $start   = $self->date_parser->parse_datetime("$today " . $self->start);
 
   die "Can't parse start (", $self->start, ") on $today\n"
     unless defined $start;
 
   my $end;
   if ($self->end eq '24:00:00') {
-    $end = $date_p->parse_datetime("$today 23:59:59");
+    $end = $self->date_parser->parse_datetime("$today 23:59:59");
     $end->add(seconds => 1);
   } else {
-    $end     = $date_p->parse_datetime("$today " . $self->end);
+    $end     = $self->date_parser->parse_datetime("$today " . $self->end);
   }
 
   die "Can't parse end (", $self->end, ") on $today\n"
@@ -186,8 +194,8 @@ sub lunch_duration {
 
   my $today = $self->day_date->ymd;
 
-  my $l_start = $date_p->parse_datetime("$today " . $self->lunch_start);
-  my $l_end   = $date_p->parse_datetime("$today " . $self->lunch_end);
+  my $l_start = $self->date_parser->parse_datetime("$today " . $self->lunch_start);
+  my $l_end   = $self->date_parser->parse_datetime("$today " . $self->lunch_end);
 
   return $l_end - $l_start;
 }
