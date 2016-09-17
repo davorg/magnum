@@ -157,7 +157,7 @@ use DateTime::Duration;
 
 has date_parser => (
   is => 'ro',
-  isa => DateTime::Format::Strptime,
+  isa => 'DateTime::Format::Strptime',
   lazy_build => 1,
 );
 
