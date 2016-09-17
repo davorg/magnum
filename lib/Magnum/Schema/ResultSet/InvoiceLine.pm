@@ -2,11 +2,23 @@ package Magnum::Schema::ResultSet::InvoiceLine;
 
 use strict;
 use warnings;
-use base 'DBIx::Class::ResultSet';
+use Moose;
+use MooseX::NonMoose;
+extends 'DBIx::Class::ResultSet';
+
+sub BUILDARGS { $_[2] }
+
+has default_vat_type => (
+  is => 'ro',
+  isa => 'Str',
+  default => 'standard',
+);
 
 sub filter_by_vat_type {
   my $self = shift;
   my ($vat_type) = @_;
+
+  $vat_type //= $self->default_vat_type;
 
   $self->search({
     vat => $vat_type,
