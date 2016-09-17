@@ -10,7 +10,7 @@ use Magnum::Schema;
 
 
 print 'Which Contract: ';
-chomp(my $cont = <STDIN>);
+chomp(my $cont = <>);
 
 my $sch = Magnum::Schema->get_schema;
 
@@ -32,7 +32,7 @@ my $desc_prefix = $contract->product->name . ' '.
                   $contract->site->name;
 
 print 'Which weeks: ';
-chomp(my $weeks = <STDIN>);
+chomp(my $weeks = <>);
 my @weeks = split /[\s,]/, $weeks;
 
 my $i = 1;
