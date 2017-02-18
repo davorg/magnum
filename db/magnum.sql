@@ -211,24 +211,6 @@ CREATE TABLE `site` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `temptable`
---
-
-DROP TABLE IF EXISTS `temptable`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `temptable` (
-  `id` int(11) NOT NULL DEFAULT '0',
-  `invoice` int(11) NOT NULL DEFAULT '0',
-  `line_no` int(11) NOT NULL DEFAULT '0',
-  `week` int(11) DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
-  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
-  `vat` char(10) NOT NULL DEFAULT 'standard'
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `vat_rate`
 --
 
@@ -275,4 +257,4 @@ CREATE TABLE `week` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-02-18 11:39:40
+-- Dump completed on 2017-02-18 11:43:58
