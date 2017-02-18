@@ -9,7 +9,7 @@ use Magnum::Schema;
 
 # Need at least three arguments - contracid, month and year
 @ARGV >= 3 or die "usage: add_mon.pl contract mon yr\n";
-my ($contract_id, $month, $year) = @ARGV;
+my ($contract_id, $m, $y) = @ARGV;
 
 my $sch = Magnum::Schema->get_schema;
 
@@ -17,6 +17,8 @@ my $con_rs = $sch->resultset('Contract');
 my $contract = $con_rs->find($contract_id);
 
 die "Can't find contract $contract_id\n" unless $contract;
+
+my $mon_rs = $sch->resultset('Month');
 
 # We can optionally pass extra arguments to the program. These are
 # dates in the month that would usually be working days (i.e. Mon-Fri)
@@ -29,7 +31,17 @@ my @skip;
 my %skip;
 @skip{@skip} = (1) x @skip;
 
-my $first = DateTime->new(day => 1, month => $month, year => $year);
+my $first = DateTime->new(day => 1, month => $m, year => $y);
+
+my ($month) = $mon_rs->search({ month => $m, year => $y });
+unless ($month) {
+  $month = $mon_rs->create({
+    name       => $first->strftime('%B %Y'),
+    year       => $y,
+    month      => $m,
+    month_name => $first->strftime('%B'),
+  });
+}
 
 my $start = $first;
 my $oneday = DateTime::Duration->new(days => 1);
@@ -41,7 +53,10 @@ $start -= $oneday * ($start->day_of_week);
 do {
   my $day = $start;
 
-  my $week = $contract->add_to_weeks({ start => $start });
+  my $week = $contract->add_to_weeks({
+    start => $start,
+    month => $month->id,
+  });
 
   for (0 .. 6) {
     my %day;
@@ -55,12 +70,12 @@ do {
         ('8:30', '17:30', '12:30', '13:30');
     }
     $day{day_date} = $day;
-    $week->add_to_days(\%day) if $day->month == $month;
+    $week->add_to_days(\%day) if $day->month == $m;
 
     $day += $oneday
   }
 
   $start += 7 * $oneday;
-} while ($start->month == $month);
+} while ($start->month == $m);
 
 print "end\n";
