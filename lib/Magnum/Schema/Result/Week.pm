@@ -62,6 +62,11 @@ __PACKAGE__->table("week");
   data_type: 'tinyint'
   is_nullable: 1
 
+=head2 month
+
+  data_type: 'integer'
+  is_nullable: 0
+
 =cut
 
 __PACKAGE__->add_columns(
@@ -78,6 +83,8 @@ __PACKAGE__->add_columns(
   },
   "invoiced",
   { data_type => "tinyint", is_nullable => 1 },
+  "month",
+  { data_type => "integer", is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -140,8 +147,8 @@ __PACKAGE__->has_many(
 );
 
 
-# Created by DBIx::Class::Schema::Loader v0.07042 @ 2015-07-28 21:49:56
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:o8Iy9O6QxxcFYV51R38TYA
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-02-18 11:17:45
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KTpIye3gDoHn65FkgNVLGQ
 
 sub is_in_month {
   my $self = shift;
