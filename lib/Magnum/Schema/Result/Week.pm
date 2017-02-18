@@ -65,6 +65,7 @@ __PACKAGE__->table("week");
 =head2 month
 
   data_type: 'integer'
+  is_foreign_key: 1
   is_nullable: 0
 
 =cut
@@ -84,7 +85,7 @@ __PACKAGE__->add_columns(
   "invoiced",
   { data_type => "tinyint", is_nullable => 1 },
   "month",
-  { data_type => "integer", is_nullable => 0 },
+  { data_type => "integer", is_foreign_key => 1, is_nullable => 0 },
 );
 
 =head1 PRIMARY KEY
@@ -146,9 +147,24 @@ __PACKAGE__->has_many(
   { cascade_copy => 0, cascade_delete => 0 },
 );
 
+=head2 month
 
-# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-02-18 11:17:45
-# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:KTpIye3gDoHn65FkgNVLGQ
+Type: belongs_to
+
+Related object: L<Magnum::Schema::Result::Month>
+
+=cut
+
+__PACKAGE__->belongs_to(
+  "month",
+  "Magnum::Schema::Result::Month",
+  { id => "month" },
+  { is_deferrable => 1, on_delete => "RESTRICT", on_update => "RESTRICT" },
+);
+
+
+# Created by DBIx::Class::Schema::Loader v0.07046 @ 2017-02-18 11:42:17
+# DO NOT MODIFY THIS OR ANYTHING ABOVE! md5sum:h15Nso1A9QRFk9H+6n1NGw
 
 sub is_in_month {
   my $self = shift;

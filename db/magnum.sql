@@ -1,8 +1,8 @@
--- MySQL dump 10.15  Distrib 10.0.20-MariaDB, for Linux (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.21-MariaDB, for Linux (x86_64)
 --
--- Host: mag-sol.com    Database: magnum
+-- Host: mag-sol.com    Database: mag-sol.com
 -- ------------------------------------------------------
--- Server version	5.5.41-MariaDB
+-- Server version	5.5.52-MariaDB
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -48,7 +48,7 @@ CREATE TABLE `contract` (
   CONSTRAINT `contract_ibfk_2` FOREIGN KEY (`employee`) REFERENCES `employee` (`id`),
   CONSTRAINT `contract_ibfk_3` FOREIGN KEY (`product`) REFERENCES `product` (`id`),
   CONSTRAINT `contract_ibfk_4` FOREIGN KEY (`site`) REFERENCES `site` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -71,7 +71,7 @@ CREATE TABLE `customer` (
   `invoice_address` varchar(255) NOT NULL DEFAULT '',
   `note` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +93,7 @@ CREATE TABLE `day` (
   PRIMARY KEY (`id`),
   KEY `week` (`week`),
   CONSTRAINT `day_week_fk` FOREIGN KEY (`week`) REFERENCES `week` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5551 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5976 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -126,12 +126,13 @@ CREATE TABLE `invoice` (
   `customer` int(11) NOT NULL DEFAULT '0',
   `contract` int(11) DEFAULT NULL,
   `cust_ref` varchar(20) DEFAULT NULL,
+  `cust_ref_desc` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `invoice_contract_fk` (`contract`),
   KEY `invoice_customer_fk` (`customer`),
   CONSTRAINT `invoice_contract_fk` FOREIGN KEY (`contract`) REFERENCES `contract` (`id`),
   CONSTRAINT `invoice_customer_fk` FOREIGN KEY (`customer`) REFERENCES `customer` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=420 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=443 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -154,7 +155,24 @@ CREATE TABLE `invoice_line` (
   KEY `week` (`week`),
   CONSTRAINT `invoice_line_ibfk_1` FOREIGN KEY (`week`) REFERENCES `week` (`id`),
   CONSTRAINT `line_invoice_fk` FOREIGN KEY (`invoice`) REFERENCES `invoice` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1134 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1204 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `month`
+--
+
+DROP TABLE IF EXISTS `month`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `month` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) NOT NULL,
+  `year` int(11) NOT NULL,
+  `month` int(11) NOT NULL,
+  `month_name` varchar(15) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=277 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -189,7 +207,25 @@ CREATE TABLE `site` (
   `email` varchar(50) DEFAULT NULL,
   `note` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `temptable`
+--
+
+DROP TABLE IF EXISTS `temptable`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `temptable` (
+  `id` int(11) NOT NULL DEFAULT '0',
+  `invoice` int(11) NOT NULL DEFAULT '0',
+  `line_no` int(11) NOT NULL DEFAULT '0',
+  `week` int(11) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `amount` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `vat` char(10) NOT NULL DEFAULT 'standard'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +242,7 @@ CREATE TABLE `vat_rate` (
   `type` char(10) NOT NULL,
   `rate` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -221,10 +257,13 @@ CREATE TABLE `week` (
   `contract` int(11) NOT NULL,
   `start` date NOT NULL DEFAULT '0000-00-00',
   `invoiced` tinyint(4) DEFAULT NULL,
+  `month` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `contract` (`contract`),
+  KEY `month` (`month`),
+  CONSTRAINT `week_ibfk_2` FOREIGN KEY (`month`) REFERENCES `month` (`id`),
   CONSTRAINT `week_ibfk_1` FOREIGN KEY (`contract`) REFERENCES `contract` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1042 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1117 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -236,4 +275,4 @@ CREATE TABLE `week` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-07-28 10:51:30
+-- Dump completed on 2017-02-18 11:39:40
