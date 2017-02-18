@@ -68,8 +68,8 @@ accounts@mag-sol.com</div>
 </tr>
 </table>
 
-<div id="footer"><p>Terms:&nbsp;30&nbsp;days<br />
-<b>Due date: [% inv.date.add( days => 30 ).strftime('%d %B %Y') %]</b></p>
+<div id="footer"><p>Terms:&nbsp;28&nbsp;days<br />
+<b>Due date: [% inv.date.add( days => 28 ).strftime('%d %B %Y') %]</b></p>
 <p>[%#Please&nbsp;make&nbsp;cheques&nbsp;payable&nbsp;to&nbsp;Magnum&nbsp;Solutions&nbsp;Ltd<br />%]
 For&nbsp;electronic&nbsp;payments&nbsp;use<br />
 Sort&nbsp;Code:&nbsp;40-01-07&nbsp;/&nbsp;Acct:&nbsp;81687166<br />
