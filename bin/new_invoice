@@ -40,6 +40,7 @@ my $week_rs = $sch->resultset('Week');
 
 foreach (@weeks) {
   my $wk = $week_rs->find($_);
+  die "Can't find week [$_]\n" unless $wk;
 
   unless ($wk->contract->customer->id == $contract->customer->id) {
     warn 'Week ' . $wk->id . ' has no work for ' .
