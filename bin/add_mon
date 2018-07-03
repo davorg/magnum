@@ -22,7 +22,7 @@ my $mon_rs = $sch->resultset('Month');
 
 # We can optionally pass extra arguments to the program. These are
 # dates in the month that would usually be working days (i.e. Mon-Fri)
-# but for some reason (public hoilday, sickness, anything else) weren't
+# but for some reason (public holiday, sickness, anything else) weren't
 # worked.
 # We turn those dates into a hash, %skip, where the key is the date to
 # skip and the value is one.
